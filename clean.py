@@ -24,6 +24,10 @@ def sort_top(df, n_head=5):
                       df.iloc[:, n_head:]], sort=False, axis=1)
 
 
+def sort_all(df):
+    df['tot'] = df.sum(axis=1)
+    return df.sort_values(by='tot', ascending=False).iloc[:, :-1]
+
 def normalizePop(label, df, n_head=5):
     df.index.name = 'country'
     mer = pd.merge(df, pop, how='right', left_on='country', right_on='country')
@@ -57,6 +61,19 @@ def normalizePop(label, df, n_head=5):
     return mer, df
 
 
+def cleanRate(label, normalize=False, rolling=1):
+    conf = pd.read_csv('confirmed-raw.csv', index_col=0)
+    death = pd.read_csv('deaths-raw.csv', index_col=0)
+    df = (100 * death / conf).round(2)
+    df.to_csv(f'{label}-raw.csv')
+    if normalize:
+        df_rolling = df.rolling(window=rolling, axis=1, min_periods=1).mean()
+        df_rolling['tot'] = death.sum(axis=1)
+        df_rolling = df_rolling.sort_values('tot', ascending=False)
+        df_rolling = df_rolling.drop(columns='tot')
+        df_rolling.transpose().to_csv(f'{label}-normalized-rolling.csv')
+    return df_rolling
+
 def clean(label, n_head=5, normalize=False, rolling=1):
     df = pd.read_csv(label + '-raw.csv', index_col=0)
     sort_top(df.transpose().round(2), n_head).to_csv(label + '-new.csv')
@@ -79,5 +96,6 @@ else:
 n_max = 5
 df_conf = clean(label='confirmed', n_head=n_max, normalize=True, rolling=rolling)
 df_death = clean(label='deaths', n_head=n_max, normalize=True, rolling=rolling)
-df_rate = (100 * df_death / df_conf).round(2)[["total", f"{n}-day total"]]
-df_rate.to_csv('rate-summary.csv')
+df_rate = cleanRate(label='rate', normalize=True, rolling=rolling)
+df_rate.iloc[:, -30:].mean(axis=1).round(3).to_csv('rate-summary.csv', header=True)
+# df_rate.iloc[:, -30:].round(3).to_csv('rate-summary.csv', header=True)

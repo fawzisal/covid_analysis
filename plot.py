@@ -80,3 +80,4 @@ else:
 
 df = plot(label='confirmed', n_head=n_max, normalize=True)
 #df = plot(label='deaths', n_head=n_max, normalize=True)
+df = plot(label='rate', n_head=n_max, normalize=True)
