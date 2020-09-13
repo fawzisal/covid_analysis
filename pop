@@ -1,178 +1,178 @@
-country,pop
-Afghanistan,37172386
-Albania,2866376
-Algeria,42228429
-Andorra,77006
-Angola,30809762
-Antigua and Barbuda,96286
-Argentina,44494502
-Armenia,2951776
-Australia,24992369
-Austria,8847037
-Azerbaijan,9942334
-Bahamas,385640
-Bahrain,1569439
-Bangladesh,161356039
-Barbados,286641
-Belarus,9485386
-Belgium,11422068
-Belize,383071
-Benin,11485048
-Bhutan,754394
-Bolivia,11353142
-Bosnia and Herzegovina,3323929
-Botswana,2254126
-Brazil,209469333
-Brunei,428962
-Bulgaria,7024216
-Burkina Faso,19751535
-Burma,53708395
-Burundi,11175378
-Cabo Verde,543767
-Cambodia,16249798
-Cameroon,25216237
-Canada,37058856
-Central African Republic,4666377
-Chad,15477751
-Chile,18729160
-China,1392730000
-Colombia,49648685
-Congo (Brazzaville),5244363
-Congo (Kinshasa),84068091
-Costa Rica,4999441
-Cote d'Ivoire,25069229
-Croatia,4089400
-Cuba,11338138
-Cyprus,1189265
-Czechia,10625695
-Denmark,5797446
-Djibouti,958920
-Dominica,71625
-Dominican Republic,10627165
-Ecuador,17084357
-Egypt,98423595
-El Salvador,6420744
-Equatorial Guinea,1308974
-Eritrea,
-Estonia,1320884
-Eswatini,1136191
-Ethiopia,109224559
-Fiji,883483
-Finland,5518050
-France,66987244
-Gabon,2119275
-Gambia,2280102
-Georgia,3731000
-Germany,82927922
-Ghana,29767108
-Greece,10727668
-Grenada,111454
-Guatemala,17247807
-Guinea,12414318
-Guinea-Bissau,1874309
-Guyana,779004
-Haiti,11123176
-Honduras,9587522
-Hungary,9768785
-Iceland,353574
-India,1352617328
-Indonesia,267663435
-Iran,81800269
-Iraq,38433600
-Ireland,4853506
-Israel,8883800
-Italy,60431283
-Jamaica,2934855
-Japan,126529100
-Jordan,9956011
-Kazakhstan,18276499
-Kenya,51393010
-"Korea, South",51635256
-Kosovo,1845300
-Kuwait,4137309
-Kyrgyzstan,6315800
-Laos,7061507
-Latvia,1926542
-Lebanon,6848925
-Liberia,4818977
-Libya,6678567
-Liechtenstein,37910
-Lithuania,2789533
-Luxembourg,607728
-Madagascar,26262368
-Malawi,18143315
-Malaysia,31528585
-Maldives,515696
-Mali,19077690
-Malta,483530
-Mauritania,4403319
-Mauritius,1265303
-Mexico,126190788
-Moldova,3545883
-Monaco,38682
-Mongolia,3170208
-Montenegro,622345
-Morocco,36029138
-Mozambique,29495962
-Namibia,2448255
-Nepal,28087871
-Netherlands,17231017
-New Zealand,4885500
-Nicaragua,6465513
-Niger,22442948
-Nigeria,195874740
-North Macedonia,2082958
-Norway,5314336
-Oman,4829483
-Pakistan,212215030
-Panama,4176873
-Papua New Guinea,8606316
-Paraguay,6956071
-Peru,31989256
-Philippines,106651922
-Poland,37978548
-Portugal,10281762
-Qatar,2781677
-Romania,19473936
-Russia,144478050
-Rwanda,12301939
-Saint Kitts and Nevis,52441
-Saint Lucia,181889
-Saint Vincent and the Grenadines,110210
-San Marino,33785
-Saudi Arabia,33699947
-Senegal,15854360
-Serbia,6982084
-Seychelles,96762
-Sierra Leone,7650154
-Singapore,5638676
-Slovakia,5447011
-Slovenia,2067372
-Somalia,15008154
-South Africa,57779622
-Spain,46723749
-Sri Lanka,21670000
-Sudan,41801533
-Suriname,575991
-Sweden,10183175
-Switzerland,8516543
-Syria,16906283
-Tanzania,56318348
-Thailand,69428524
-Timor-Leste,1267972
-Togo,7889094
-Trinidad and Tobago,1389858
-Tunisia,11565204
-Turkey,82319724
-US,327167434
-Uganda,42723139
-Ukraine,44622516
-United Arab Emirates,9630959
-United Kingdom,66488991
-Uruguay,3449299
-Uzbekistan,32955400
-Venezuela,28870195
-Vietnam,95540395
-West Bank and Gaza,4569087
-Zambia,17351822
-Zimbabwe,14439018
+country,pop,code,continent,area
+Afghanistan,37172386,AC,ASIA,Central
+Albania,2866376,EE,EURO,East
+Algeria,42228429,MA,MIDE,Africa North
+Andorra,77006,EW,EURO,West
+Angola,30809762,FS,AFRI,South
+Antigua and Barbuda,96286,MC,AMER,Caribbean
+Argentina,44494502,MS,AMER,South
+Armenia,2951776,EE,EURO,East
+Australia,24992369,OC,OCEA,
+Austria,8847037,EW,EURO,West
+Azerbaijan,9942334,EE,EURO,East
+Bahamas,385640,MC,AMER,Caribbean
+Bahrain,1569439,MG,MIDE,Gulf
+Bangladesh,161356039,AS,ASIA,South
+Barbados,286641,MC,AMER,Caribbean
+Belarus,9485386,EE,EURO,East
+Belgium,11422068,EW,EURO,West
+Belize,383071,MC,AMER,Central
+Benin,11485048,FW,AFRI,West
+Bhutan,754394,AS,ASIA,South
+Bolivia,11353142,MS,AMER,South
+Bosnia and Herzegovina,3323929,EE,EURO,East
+Botswana,2254126,FS,AFRI,South
+Brazil,209469333,MS,AMER,South
+Brunei,428962,AI,ASIA,South East
+Bulgaria,7024216,EE,EURO,East
+Burkina Faso,19751535,FW,AFRI,West
+Burma,53708395,AI,ASIA,South East
+Burundi,11175378,FW,AFRI,West
+Cabo Verde,543767,FW,AFRI,West
+Cambodia,16249798,AI,ASIA,South East
+Cameroon,25216237,FC,AFRI,Central
+Canada,37058856,MN,AMER,North
+Central African Republic,4666377,FC,AFRI,Central
+Chad,15477751,FC,AFRI,Central
+Chile,18729160,MS,AMER,South
+China,1392730000,AE,ASIA,East
+Colombia,49648685,MS,AMER,South
+Congo (Brazzaville),5244363,FC,AFRI,Central
+Congo (Kinshasa),84068091,FC,AFRI,Central
+Costa Rica,4999441,MC,AMER,Central
+Cote d'Ivoire,25069229,FW,AFRI,West
+Croatia,4089400,EE,EURO,East
+Cuba,11338138,MC,AMER,Caribbean
+Cyprus,1189265,ES,EURO,South
+Czechia,10625695,EE,EURO,East
+Denmark,5797446,EN,EURO,North
+Djibouti,958920,FE,AFRI,East
+Dominica,71625,MC,AMER,Caribbean
+Dominican Republic,10627165,MC,AMER,Caribbean
+Ecuador,17084357,MS,AMER,South
+Egypt,98423595,MA,MIDE,Africa North
+El Salvador,6420744,MC,AMER,Central
+Equatorial Guinea,1308974,FC,AFRI,Central
+Eritrea,,FE,AFRI,East
+Estonia,1320884,EN,EURO,North
+Eswatini,1136191,FS,AFRI,South
+Ethiopia,109224559,FE,AFRI,East
+Fiji,883483,OC,OCEA,
+Finland,5518050,EN,EURO,North
+France,66987244,EW,EURO,West
+Gabon,2119275,FC,AFRI,Central
+Gambia,2280102,FW,AFRI,West
+Georgia,3731000,EE,EURO,East
+Germany,82927922,EW,EURO,West
+Ghana,29767108,FW,AFRI,West
+Greece,10727668,ES,EURO,South
+Grenada,111454,MC,AMER,Caribbean
+Guatemala,17247807,MC,AMER,Central
+Guinea,12414318,FW,AFRI,West
+Guinea-Bissau,1874309,FW,AFRI,West
+Guyana,779004,MS,AMER,South
+Haiti,11123176,MC,AMER,Caribbean
+Honduras,9587522,MC,AMER,Central
+Hungary,9768785,EE,EURO,East
+Iceland,353574,EN,EURO,North
+India,1352617328,AS,ASIA,South
+Indonesia,267663435,AI,ASIA,South East
+Iran,81800269,ML,MIDE,Levant
+Iraq,38433600,ML,MIDE,Levant
+Ireland,4853506,EW,EURO,West
+Israel,8883800,ML,MIDE,Levant
+Italy,60431283,ES,EURO,South
+Jamaica,2934855,MC,AMER,Caribbean
+Japan,126529100,AE,ASIA,East
+Jordan,9956011,ML,MIDE,Levant
+Kazakhstan,18276499,AC,ASIA,Central
+Kenya,51393010,FE,AFRI,East
+Korea S.,51635256,AE,ASIA,East
+Kosovo,1845300,EE,EURO,East
+Kuwait,4137309,MG,MIDE,Gulf
+Kyrgyzstan,6315800,AC,ASIA,Central
+Laos,7061507,AI,ASIA,South East
+Latvia,1926542,EE,EURO,East
+Lebanon,6848925,ML,MIDE,Levant
+Liberia,4818977,FW,AFRI,West
+Libya,6678567,MA,MIDE,Africa North
+Liechtenstein,37910,EW,EURO,West
+Lithuania,2789533,EE,EURO,East
+Luxembourg,607728,EW,EURO,West
+Madagascar,26262368,FS,AFRI,South
+Malawi,18143315,FS,AFRI,South
+Malaysia,31528585,AI,ASIA,South East
+Maldives,515696,AW,ASIA,West
+Mali,19077690,FW,AFRI,West
+Malta,483530,ES,EURO,South
+Mauritania,4403319,FW,AFRI,West
+Mauritius,1265303,AW,ASIA,West
+Mexico,126190788,MC,AMER,Central
+Moldova,3545883,EE,EURO,East
+Monaco,38682,ES,EURO,South
+Mongolia,3170208,AC,ASIA,Central
+Montenegro,622345,EE,EURO,East
+Morocco,36029138,MA,MIDE,Africa North
+Mozambique,29495962,FS,AFRI,South
+Namibia,2448255,FS,AFRI,South
+Nepal,28087871,AS,ASIA,South
+Netherlands,17231017,EW,EURO,West
+New Zealand,4885500,OC,OCEA,
+Nicaragua,6465513,MC,AMER,Central
+Niger,22442948,FW,AFRI,West
+Nigeria,195874740,FW,AFRI,West
+North Macedonia,2082958,EE,EURO,East
+Norway,5314336,EN,EURO,North
+Oman,4829483,MG,MIDE,Gulf
+Pakistan,212215030,AS,ASIA,South
+Panama,4176873,MC,AMER,Central
+Papua New Guinea,8606316,OC,OCEA,
+Paraguay,6956071,MS,AMER,South
+Peru,31989256,MS,AMER,South
+Philippines,106651922,AI,ASIA,South East
+Poland,37978548,EE,EURO,East
+Portugal,10281762,ES,EURO,South
+Qatar,2781677,MG,MIDE,Gulf
+Romania,19473936,EE,EURO,East
+Russia,144478050,EE,EURO,East
+Rwanda,12301939,FE,AFRI,East
+Saint Kitts and Nevis,52441,MC,AMER,Caribbean
+Saint Lucia,181889,MC,AMER,Caribbean
+Saint Vincent and the Grenadines,110210,MC,AMER,Caribbean
+San Marino,33785,ES,EURO,South
+Saudi Arabia,33699947,MG,MIDE,Gulf
+Senegal,15854360,FW,AFRI,West
+Serbia,6982084,EE,EURO,East
+Seychelles,96762,AW,ASIA,West
+Sierra Leone,7650154,FW,AFRI,West
+Singapore,5638676,AI,ASIA,South East
+Slovakia,5447011,EE,EURO,East
+Slovenia,2067372,EE,EURO,East
+Somalia,15008154,FE,AFRI,East
+South Africa,57779622,FS,AFRI,South
+Spain,46723749,ES,EURO,South
+Sri Lanka,21670000,AS,ASIA,South
+Sudan,41801533,MA,MIDE,Africa North
+Suriname,575991,MS,AMER,South
+Sweden,10183175,EN,EURO,North
+Switzerland,8516543,EW,EURO,West
+Syria,16906283,ML,MIDE,Levant
+Tanzania,56318348,FE,AFRI,East
+Thailand,69428524,AI,ASIA,South East
+Timor-Leste,1267972,AI,ASIA,South East
+Togo,7889094,FW,AFRI,West
+Trinidad and Tobago,1389858,MC,AMER,Caribbean
+Tunisia,11565204,MA,MIDE,Africa North
+Turkey,82319724,ML,MIDE,Levant
+US,327167434,MN,AMER,North
+Uganda,42723139,FE,AFRI,East
+Ukraine,44622516,EE,EURO,East
+United Arab Emirates,9630959,MG,MIDE,Gulf
+United Kingdom,66488991,EW,EURO,West
+Uruguay,3449299,MS,AMER,South
+Uzbekistan,32955400,AC,ASIA,Central
+Venezuela,28870195,MS,AMER,South
+Vietnam,95540395,AI,ASIA,South East
+West Bank and Gaza,4569087,ML,MIDE,Levant
+Zambia,17351822,FS,AFRI,South
+Zimbabwe,14439018,FS,AFRI,South
