@@ -1,2 +1,5 @@
-_dev_
-*.csv
+__*
+raw
+*log
+*.gz
+*.zip
