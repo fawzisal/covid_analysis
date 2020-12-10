@@ -30,6 +30,8 @@ parser.add_argument('-c', nargs='?',
 parser.add_argument('-n', nargs=1,
                     help='number of countries to plot (default: 5)',
                     dest='num', default=5)
+parser.add_argument('-s', action='store_true', help='sort by cases',
+                    dest='b_s', default=False)
 args = parser.parse_args()
 
 
@@ -282,7 +284,7 @@ if args.b_d:
 
 rolling = n
 if args.b_k:
-    tosort = False
+    tosort = args.b_s
     num = 5
     df_conf = clean(label='confirmed', n_head=num, tosort=tosort,
                     normalize=True, rolling=rolling)
