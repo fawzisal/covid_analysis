@@ -10,18 +10,18 @@ import os
 import subprocess as sp
 
 os.makedirs('raw', exist_ok=True)
-parser = argparse.ArgumentParser(description='Download, clean and plot covid data')
+parser = argparse.ArgumentParser(description='Download, clean and plot COVID-19 data')
 parser.add_argument('-d', action='store_true',
-                    help='download new data [overall]',
+                    help='download new hospitalization data',
                     dest='b_d', default=False)
-parser.add_argument('-p', action='store_true', help='plot_all',
+parser.add_argument('-p', action='store_true', help='plot hospitalization indicators',
                     dest='b_p', default=False)
-parser.add_argument('-a', action='store_true', help='plot_all',
+parser.add_argument('-a', action='store_true', help='plot all hospitalization indicators',
                     dest='b_a', default=False)
 parser.add_argument('-D', action='store_true',
-                    help='download new data [per health region]',
+                    help='download new case data [per health region]',
                     dest='b_D', default=False)
-parser.add_argument('-P', action='store_true', help='plot_all',
+parser.add_argument('-P', action='store_true', help='plot new cases [per health region]',
                     dest='b_P', default=False)
 args = parser.parse_args()
 
@@ -132,7 +132,8 @@ if args.b_P:
     df_perpop = df_perpop.sort_index(ascending=False)
     df_perpop.to_csv('raw_ON/cases_perpop.csv')
 
-    plotFunc_DT(file='raw_ON/cases_perpop.csv', df=df_pivot, n_head=10, logscale=True)
+    plotFunc_DT(file='raw_ON/cases_perpop.csv', title="New cases per 100K people",
+                df=df_pivot, n_head=10, logscale=True)
 
     df.Accurate_Episode_Date = pd.to_datetime(df.Accurate_Episode_Date)
     df.Case_Reported_Date = pd.to_datetime(df.Case_Reported_Date)
@@ -179,8 +180,10 @@ if args.b_p:
     dfd.to_csv('raw_ON/data_diff.csv')
     n = 60
     if args.b_a:
-        plotFunc(file='raw_ON/data.csv', df=df, n_head=17, logscale=True)
+        plotFunc(file='raw_ON/data.csv', title="Detailed COVID-19 indicators for Ontario",
+                 df=df, n_head=17, logscale=True)
     else:
-        plotFunc(file='raw_ON/data_hos.csv', df=df, n_max=dfh.max().max(),
+        plotFunc(file='raw_ON/data_hos.csv', title="Detailed COVID-19 indicators for Ontario",
+                 df=df, n_max=dfh.max().max(),
                  logscale=True, n_head=4)
     # plotFunc(file='raw_ON/data_diff.csv', df=df, n_max=120, n_head=17)
