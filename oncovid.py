@@ -8,6 +8,7 @@ import pandas as pd
 import argparse
 import os
 import subprocess as sp
+import datetime as dt
 
 os.makedirs('raw', exist_ok=True)
 parser = argparse.ArgumentParser(description='Download, clean and plot COVID-19 data')
@@ -25,24 +26,41 @@ parser.add_argument('-P', action='store_true', help='plot new cases [per health 
                     dest='b_P', default=False)
 args = parser.parse_args()
 
-opts = 'set key font "arial";' +\
-       'set key autotitle columnheader;' +\
-       'set datafile separator comma;' +\
-       'set key outside; set autoscale;' +\
-       'set timefmt "%m/%d/%y";' +\
-       'set xdata time;' +\
-       'set xrange ["3/01/20":]; \n' +\
-       'toggle all; \n'
+opts = """
+        set key font "arial";
+        set key autotitle columnheader;
+        set datafile separator comma;
+        set key outside; set autoscale;
+        set timefmt "%m/%d/%y";
+        set xdata time;
+        set xtics format "%b";
+        set mxtics (4);
+        set grid;
+        toggle all;
+"""
 
-opts_DT = 'set key font "arial";' +\
-          'set key autotitle columnheader;' +\
-          'set datafile separator comma;' +\
-          'set key outside; set autoscale;' +\
-          'set timefmt "%Y-%m-%d";' +\
-          'set xdata time;' +\
-          'set xrange ["2020-03-01":]; \n' +\
-          'set format x "%m-%d"; \n' +\
-          'toggle all; \n'
+opts_DT = """
+        set key font "arial";
+        set key autotitle columnheader;
+        set datafile separator comma;
+        set key outside; set autoscale;
+        set timefmt "%Y-%m-%d";
+        set xdata time;
+        set xtics format "%b";
+        set mxtics (4);
+        set grid;
+        set format x "%m-%d";
+        toggle all;
+"""
+# opts_DT = 'set key font "arial";' +\
+#           'set key autotitle columnheader;' +\
+#           'set datafile separator comma;' +\
+#           'set key outside; set autoscale;' +\
+#           'set timefmt "%Y-%m-%d";' +\
+#           'set xdata time;' +\
+#           'set xrange ["2020-03-01":]; \n' +\
+#           'set format x "%m-%d"; \n' +\
+#           'toggle all; \n'
 
 
 def plotFunc(file, n_head=10, n_max=None, logscale=False,
@@ -50,6 +68,7 @@ def plotFunc(file, n_head=10, n_max=None, logscale=False,
              ica=[], title=None, df=None):
     n_min = 0.01 if logscale else n_min
     opts_ = opts
+    opts_ = opts_ + 'set xrange ["3/01/20":"' + dt.date.today().strftime('%m/%d/%y') + '"]; \n'
     opts_ = opts_ + 'set logscale y; \n' if logscale else opts_
     opts_ = opts_ + f'set yrange [{n_min}:{n_max}]; ' if n_max else opts_
     opts_ = opts_ + f'set title "{title}"; ' if title else opts_
@@ -67,6 +86,7 @@ def plotFunc_DT(file, n_head=10, n_max=None, logscale=False,
                 ica=[], title=None, df=None):
     n_min = 0.01 if logscale else n_min
     opts_ = opts_DT
+    opts_ = opts_ + 'set xrange ["2020-03-01":"' + dt.date.today().strftime('%Y-%m-%d') + '"]; \n'
     opts_ = opts_ + 'set logscale y; \n' if logscale else opts_
     opts_ = opts_ + f'set yrange [{n_min}:{n_max}]; ' if n_max else opts_
     opts_ = opts_ + f'set title "{title}"; ' if title else opts_

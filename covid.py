@@ -9,6 +9,7 @@ import numpy as np
 import os
 import subprocess
 import argparse
+import datetime as dt
 
 
 os.makedirs('raw_ON', exist_ok=True)
@@ -44,14 +45,18 @@ pop = pop_base.copy()
 pop = pop.iloc[:, :1]
 pop['ccode'] = pop.index.to_series().astype(str)
 
-opts = 'set key font "arial";' +\
-       'set key autotitle columnheader;' +\
-       'set datafile separator comma;' +\
-       'set key outside; set autoscale;' +\
-       'set timefmt "%m/%d/%y";' +\
-       'set xdata time;' +\
-       'set xrange ["3/01/20":]; \n' +\
-       'toggle all; \n'
+opts = """
+        set key font "arial";
+        set key autotitle columnheader;
+        set datafile separator comma;
+        set key outside; set autoscale;
+        set timefmt "%m/%d/%y";
+        set xdata time;
+        set xtics format "%b";
+        set mxtics (4);
+        set grid;
+        toggle all;
+"""
 
 n = args.period
 countries = ["Canada"]
@@ -209,6 +214,7 @@ def plotFunc(file, n_head=10, num=None, logscale=True,
     n_min = 0.01 if logscale else n_min
     num = num * 2 if logscale else num
     opts_ = opts
+    opts_ = opts_ + 'set xrange ["3/01/20":"' + dt.date.today().strftime('%m/%d/%y') + '"]; \n'
     opts_ = opts_ + 'set logscale y; \n' if logscale else opts_
     opts_ = opts_ + f'set yrange [{n_min}:{num}]; ' if num else opts_
     opts_ = opts_ + f'set title "{title}"; ' if title else opts_
@@ -224,16 +230,22 @@ def plotFunc(file, n_head=10, num=None, logscale=True,
 def plot_rate(label, n_head=5, normalize=False):
     df = pd.read_csv('raw/' + label +
                      '-normalized-rolling.csv', index_col=0).transpose()
-    n_mean = df.mean().mean()
-    n_std = df.mean().std()
+    # n_mean = df.mean().mean()
+    # n_std = df.mean().std()
+    s = df.fillna(-1).to_numpy().flatten()
+    s = s[s > -1]
+
     plotFunc(file='raw/' + label + '-normalized-rolling.csv',
              n_head=n_head,
-             n_min=max(n_mean - 2 * n_std, df.min().min(), 0),
-             num=n_mean + 3 * n_std,
+             n_min=np.quantile(s, 0.01),
+             num=np.quantile(s, 0.99),
+             # n_min=max(n_mean - 2 * n_std, df.min().min(), 0),
+             # num=n_mean + 3 * n_std,
              logscale=False,
              ica=np.where(df.index.isin(countries))[0] + 2,
              title=f"Fatality {label} (%)",
              df=df)
+    return df
 
 
 def plot_diff(label, n_head=5, normalize=False):
