@@ -66,7 +66,7 @@ opts_DT = """
 def plotFunc(file, n_head=10, n_max=None, logscale=False,
              n_min=0, format='lp',
              ica=[], title=None, df=None):
-    n_min = 0.01 if logscale else n_min
+    n_min = 0.01 if (logscale and n_min == 0) else n_min
     opts_ = opts
     opts_ = opts_ + 'set xrange ["3/01/20":"' + dt.date.today().strftime('%m/%d/%y') + '"]; \n'
     opts_ = opts_ + 'set logscale y; \n' if logscale else opts_
@@ -84,7 +84,7 @@ def plotFunc(file, n_head=10, n_max=None, logscale=False,
 def plotFunc_DT(file, n_head=10, n_max=None, logscale=False,
                 n_min=0, format='lp',
                 ica=[], title=None, df=None):
-    n_min = 0.01 if logscale else n_min
+    n_min = 0.01 if (logscale and n_min == 0) else n_min
     opts_ = opts_DT
     opts_ = opts_ + 'set xrange ["2020-03-01":"' + dt.date.today().strftime('%Y-%m-%d') + '"]; \n'
     opts_ = opts_ + 'set logscale y; \n' if logscale else opts_
@@ -189,8 +189,10 @@ if args.b_p:
     dfh = dfo.iloc[:, 10:14]
     dfh.iloc[:, 0] = dfh.iloc[:, 0]
     dfh.iloc[:, 1] = dfh.iloc[:, 1]
-    dfh.columns = ['under investigation/1000', '# hospitalized/10',
+    dfh.columns = ['# investigating/1K', '# hospitalized/10',
                    '# icu', '# ventilator']
+    dfh = dfh.rolling(window=7, axis=0, min_periods=7).mean().round(2)
+    # dfh = dfh.diff(periods=1, axis=1).dropna(axis=1)
     dfh.to_csv('raw_ON/data_hos.csv')
     dfd = dfo
     dfd = dfd.rolling(window=7, axis=1, min_periods=7).mean().round(2)
@@ -201,9 +203,9 @@ if args.b_p:
     n = 60
     if args.b_a:
         plotFunc(file='raw_ON/data.csv', title="Detailed COVID-19 indicators for Ontario",
-                 df=df, n_head=17, logscale=True)
+                 n_min=1, df=df, n_head=17, logscale=True)
     else:
         plotFunc(file='raw_ON/data_hos.csv', title="Detailed COVID-19 indicators for Ontario",
-                 df=df, n_max=dfh.max().max(),
+                 n_min=1, df=df, n_max=dfh.max().max(),
                  logscale=True, n_head=4)
     # plotFunc(file='raw_ON/data_diff.csv', df=df, n_max=120, n_head=17)
