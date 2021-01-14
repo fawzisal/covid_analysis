@@ -24,6 +24,8 @@ parser.add_argument('-D', action='store_true',
                     dest='b_D', default=False)
 parser.add_argument('-P', action='store_true', help='plot new cases [per health region]',
                     dest='b_P', default=False)
+parser.add_argument('-r', action='store_true', help='plot derivative covid indicators',
+                    dest='b_r', default=False)
 args = parser.parse_args()
 
 opts = """
@@ -63,6 +65,11 @@ opts_DT = """
 #           'toggle all; \n'
 
 
+pop = None
+if args.b_P:
+    pop = pd.read_csv('pop_ON.csv')
+
+
 def plotFunc(file, n_head=10, n_max=None, logscale=False,
              n_min=0, format='lp',
              ica=[], title=None, df=None):
@@ -86,7 +93,7 @@ def plotFunc_DT(file, n_head=10, n_max=None, logscale=False,
                 ica=[], title=None, df=None):
     n_min = 0.01 if (logscale and n_min == 0) else n_min
     opts_ = opts_DT
-    opts_ = opts_ + 'set xrange ["2020-03-01":"' + dt.date.today().strftime('%Y-%m-%d') + '"]; \n'
+    opts_ = opts_ + 'set xrange ["2020-03-01":"' + (dt.date.today() - dt.timedelta(days=7)).strftime('%Y-%m-%d') + '"]; \n'
     opts_ = opts_ + 'set logscale y; \n' if logscale else opts_
     opts_ = opts_ + f'set yrange [{n_min}:{n_max}]; ' if n_max else opts_
     opts_ = opts_ + f'set title "{title}"; ' if title else opts_
@@ -120,6 +127,25 @@ def pivot(df, index='Age_Group', columns='Reporting_PHU', trim=True):
     return fatality
 
 
+def calcPerpop(df, outfile='raw_ON/cases_perpop.csv'):
+    df_perpop = df.pivot_table(index='Accurate_Episode_Date',
+                               columns='Reporting_PHU',
+                               aggfunc=pd.Series.count,
+                               values='Outcome1').fillna(0).astype(int).iloc[1:]
+    df_perpop.loc['total'] = df_perpop.iloc[1:].sum()
+    df_perpop = df_perpop.sort_values(axis=1,
+                                      by=df_perpop.index[-1], ascending=False)
+    pop_local = pop[pop.phu.isin(df_perpop.columns)]
+    df_perpop = df_perpop.div((pop_local['pop'] / 1e5).to_list()).astype(int)
+    df_perpop = df_perpop.sort_index(ascending=False)
+    df_perpop = df_perpop.rolling(window=7, axis=0, min_periods=7).mean().round(2)
+    df_perpop = df_perpop.iloc[:-7]
+    if outfile:
+        df_perpop.to_csv(outfile)
+    return df_perpop
+
+
+
 if args.b_D:
     url = 'https://data.ontario.ca/dataset/f4112442-bdc8-45d2-be3c-12efae72fb27/resource/455fd63b-603d-4608-8216-7d8647f43350/download/conposcovidloc.csv'
     print(f'url: <{url}>')
@@ -140,21 +166,17 @@ if args.b_P:
     df_pivot.to_csv('raw_ON/cases_pivot.csv')
     df_pivot.iloc[:, 1:] = (100 * df_pivot.iloc[:, 1:]).div(df_pivot.iloc[:, 0], axis=0).astype(int)
     df_pivot.to_csv('raw_ON/cases_pivot_per.csv')
-    df_perpop = df.pivot_table(index='Accurate_Episode_Date',
-                               columns='Reporting_PHU',
-                               aggfunc=pd.Series.count,
-                               values='Outcome1').fillna(0).astype(int).iloc[1:]
-    pop = pd.read_csv('pop_ON.csv')
-    df_perpop.loc['total'] = df_perpop.iloc[1:].sum()
-    df_perpop = df_perpop.sort_values(axis=1,
-                                      by=df_perpop.index[-1], ascending=False)
-    df_perpop = df_perpop.div((pop['pop'] / 1e5).to_list()).astype(int)
-    df_perpop = df_perpop.sort_index(ascending=False)
-    df_perpop.to_csv('raw_ON/cases_perpop.csv')
+
+    df_perpop = calcPerpop(df)
 
     plotFunc_DT(file='raw_ON/cases_perpop.csv', title="New cases per 100K people",
-                df=df_pivot, n_head=10, logscale=True)
+                df=df_perpop, n_head=10, logscale=True)
 
+    if args.b_a:
+        df_perpop_deaths = calcPerpop(df[df.Outcome1 == 'Fatal'],
+                                      outfile='raw_ON/deaths_perpop.csv')
+        plotFunc_DT(file='raw_ON/deaths_perpop.csv', title="Deaths per 100K people",
+                    df=df_perpop_deaths, n_head=10, logscale=True)
     df.Accurate_Episode_Date = pd.to_datetime(df.Accurate_Episode_Date)
     df.Case_Reported_Date = pd.to_datetime(df.Case_Reported_Date)
     df.Test_Reported_Date = pd.to_datetime(df.Test_Reported_Date)
@@ -175,7 +197,7 @@ if args.b_d:
     df_D = pd.read_csv(url, index_col=0)
     df_D.to_csv('raw_ON/covidtesting.csv')
 
-if args.b_p:
+if args.b_p or args.b_r:
     df = pd.read_csv('raw_ON/covidtesting.csv', index_col=0).fillna(0)
     df.columns = ['conf-', 'assum-', 'assum+', 'conf+', 'resolved',
                   'deaths', 'total', 'total approved for testing',
@@ -186,26 +208,31 @@ if args.b_p:
     df.index = pd.to_datetime(df.index).strftime('%-m/%-d/%y')
     dfo = df
     df.to_csv('raw_ON/data.csv')
+    # dfh = dfo.loc[:, ['conf-', 'assum-', 'assum+', 'conf+', 'resolved',
+    #                   'deaths', 'total', 'under investigation',
+    #                   'num hospitalized', 'num icu', 'num on ventilator']]
     dfh = dfo.iloc[:, 10:14]
     dfh.iloc[:, 0] = dfh.iloc[:, 0]
     dfh.iloc[:, 1] = dfh.iloc[:, 1]
-    dfh.columns = ['# investigating/1K', '# hospitalized/10',
-                   '# icu', '# ventilator']
+    dfh.columns = dfh.columns.to_series().replace({'under investigation': '# investigating/1K', 'num hospitalized': '# hospitalized/10', 'num icu': '# icu', 'num on ventilator': '# ventilator'})
     dfh = dfh.rolling(window=7, axis=0, min_periods=7).mean().round(2)
+    # dfh.loc[:, dfh.columns[:4]] = dfh.loc[:, dfh.columns[:4]].diff(periods=1, axis=1).dropna(axis=1)
     # dfh = dfh.diff(periods=1, axis=1).dropna(axis=1)
     dfh.to_csv('raw_ON/data_hos.csv')
     dfd = dfo
-    dfd = dfd.rolling(window=7, axis=1, min_periods=7).mean().round(2)
-    dfd = dfd.diff(periods=1, axis=1).dropna(axis=1)
-    dfd = dfd.dropna()
+    dfd = dfd[['conf+', 'resolved', 'deaths', 'total']]
+    # dfd = dfd.rolling(window=7, axis=0, min_periods=7).mean().round(2)
+    dfd = dfd.diff(periods=7, axis=0)
+    dfd = dfd.dropna(axis=0)
     dfd = 100 * dfd.div(dfd.max())
     dfd.to_csv('raw_ON/data_diff.csv')
     n = 60
     if args.b_a:
         plotFunc(file='raw_ON/data.csv', title="Detailed COVID-19 indicators for Ontario",
-                 n_min=1, df=df, n_head=17, logscale=True)
-    else:
+                 n_min=1, df=df, n_head=17, logscale=True, format='l')
+    elif args.b_p:
         plotFunc(file='raw_ON/data_hos.csv', title="Detailed COVID-19 indicators for Ontario",
                  n_min=1, df=df, n_max=dfh.max().max(),
-                 logscale=True, n_head=4)
-    # plotFunc(file='raw_ON/data_diff.csv', df=df, n_max=120, n_head=17)
+                 logscale=True, n_head=11)
+    if args.b_r:
+        plotFunc(file='raw_ON/data_diff.csv', df=df, n_max=120, n_head=dfd.shape[1])
