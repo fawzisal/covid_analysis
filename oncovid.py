@@ -135,8 +135,8 @@ def calcPerpop(df, outfile='raw_ON/cases_perpop.csv'):
     df_perpop.loc['total'] = df_perpop.iloc[1:].sum()
     df_perpop = df_perpop.sort_values(axis=1,
                                       by=df_perpop.index[-1], ascending=False)
-    pop_local = pop[pop.phu.isin(df_perpop.columns)]
-    df_perpop = df_perpop.div((pop_local['pop'] / 1e5).to_list()).astype(int)
+    pop_local = pop.set_index('phu').loc[df_perpop.columns]['pop']
+    df_perpop = df_perpop.div(pop_local / 1e5)
     df_perpop = df_perpop.sort_index(ascending=False)
     df_perpop = df_perpop.rolling(window=7, axis=0, min_periods=7).mean().round(2)
     df_perpop = df_perpop.iloc[:-7]
@@ -165,7 +165,7 @@ if args.b_P:
     df_pivot = df_pivot.sort_index(ascending=False)
     df_pivot.to_csv('raw_ON/cases_pivot.csv')
     df_pivot.iloc[:, 1:] = (100 * df_pivot.iloc[:, 1:]).div(df_pivot.iloc[:, 0], axis=0).astype(int)
-    df_pivot.to_csv('raw_ON/cases_pivot_per.csv')
+    df_pivot.to_csv('raw_ON/cases_pivot_percent.csv')
 
     df_perpop = calcPerpop(df)
 

@@ -130,15 +130,15 @@ def normalizePop(label, df, n_head=5):
     df[f'{n}-day total'] = mer_sum
     df[f'{n}-day total per 100K'] = mer_avg
     df[f'daily avg per 100K'] = mer_sum / n
-    df = df[pop_ > 10000000]
+    df = df[pop_ > 1e7]
     df = df.sort_values(by=f'daily avg per 100K', ascending=False)
     sort_all(df.round(4), n_head).to_csv('raw/' + label + '-summary.csv')
 
     mer = mer.sort_values(by='pop', ascending=False)
-    mer = mer[mer['pop'] > 10000000].dropna()
+    mer = mer[mer['pop'] > 1e7].dropna()
     mer = mer.drop(columns=['pop'])
     for c in mer.columns:
-        mer[c] = 100000 * mer[c] / pop_
+        mer[c] = 1e5 * mer[c] / pop_
     mer[f'{n}-day/100K'] = mer_avg / n
 
     return mer, df
