@@ -26,6 +26,8 @@ parser.add_argument('-P', action='store_true', help='plot new cases [per health 
                     dest='b_P', default=False)
 parser.add_argument('-r', action='store_true', help='plot derivative covid indicators',
                     dest='b_r', default=False)
+parser.add_argument('-l', action='store_false', help='plot against a linear y scale (default: logarithmic)',
+                    dest='b_l', default=True)
 args = parser.parse_args()
 
 opts = """
@@ -170,13 +172,13 @@ if args.b_P:
     df_perpop = calcPerpop(df)
 
     plotFunc_DT(file='raw_ON/cases_perpop.csv', title="New cases per 100K people",
-                df=df_perpop, n_head=10, logscale=True)
+                df=df_perpop, n_head=10, logscale=args.b_l)
 
     if args.b_a:
         df_perpop_deaths = calcPerpop(df[df.Outcome1 == 'Fatal'],
                                       outfile='raw_ON/deaths_perpop.csv')
         plotFunc_DT(file='raw_ON/deaths_perpop.csv', title="Deaths per 100K people",
-                    df=df_perpop_deaths, n_head=10, logscale=True)
+                    df=df_perpop_deaths, n_head=10, logscale=args.b_l)
     df.Accurate_Episode_Date = pd.to_datetime(df.Accurate_Episode_Date)
     df.Case_Reported_Date = pd.to_datetime(df.Case_Reported_Date)
     df.Test_Reported_Date = pd.to_datetime(df.Test_Reported_Date)
@@ -229,10 +231,10 @@ if args.b_p or args.b_r:
     n = 60
     if args.b_a:
         plotFunc(file='raw_ON/data.csv', title="Detailed COVID-19 indicators for Ontario",
-                 n_min=1, df=df, n_head=17, logscale=True, format='l')
+                 n_min=1, df=df, n_head=17, logscale=args.b_l, format='l')
     elif args.b_p:
         plotFunc(file='raw_ON/data_hos.csv', title="Detailed COVID-19 indicators for Ontario",
                  n_min=1, df=df, n_max=dfh.max().max(),
-                 logscale=True, n_head=11)
+                 logscale=args.b_l, n_head=11)
     if args.b_r:
         plotFunc(file='raw_ON/data_diff.csv', df=df, n_max=120, n_head=dfd.shape[1])
