@@ -206,7 +206,8 @@ if args.b_p or args.b_r:
                   'num tests', 'test_perc+', 'under investigation',
                   'num hospitalized', 'num icu', 'num on ventilator',
                   'ltc resident+', 'ltc hcw+', 'ltc resident deaths',
-                  'ltc hcw deaths']
+                  'ltc hcw deaths', 'Total_Lineage_B.1.1.7',
+                  'Total_Lineage_B.1.351', 'Total_Lineage_P.1']
     df.index = pd.to_datetime(df.index).strftime('%-m/%-d/%y')
     dfo = df
     df.to_csv('raw_ON/data.csv')
@@ -220,7 +221,7 @@ if args.b_p or args.b_r:
     dfh = dfh.rolling(window=7, axis=0, min_periods=7).mean().round(2)
     # dfh.loc[:, dfh.columns[:4]] = dfh.loc[:, dfh.columns[:4]].diff(periods=1, axis=1).dropna(axis=1)
     # dfh = dfh.diff(periods=1, axis=1).dropna(axis=1)
-    dfh.to_csv('raw_ON/data_hos.csv')
+    dfh.iloc[:, 1:].to_csv('raw_ON/data_hos.csv')
     dfd = dfo
     dfd = dfd[['conf+', 'resolved', 'deaths', 'total']]
     # dfd = dfd.rolling(window=7, axis=0, min_periods=7).mean().round(2)
@@ -234,7 +235,7 @@ if args.b_p or args.b_r:
                  n_min=1, df=df, n_head=17, logscale=args.b_l, format='l')
     elif args.b_p:
         plotFunc(file='raw_ON/data_hos.csv', title="Detailed COVID-19 indicators for Ontario",
-                 n_min=1, df=df, n_max=dfh.max().max(),
-                 logscale=args.b_l, n_head=11)
+                 n_min=1, df=df, n_max=dfh.iloc[:, 1:].max().max(),
+                 logscale=args.b_l, n_head=3)
     if args.b_r:
         plotFunc(file='raw_ON/data_diff.csv', df=df, n_max=120, n_head=dfd.shape[1])
