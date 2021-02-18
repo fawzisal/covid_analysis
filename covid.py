@@ -27,7 +27,10 @@ parser.add_argument('-p', nargs='?',
                     dest='plots', default='cd')
 parser.add_argument('-c', nargs='?',
                     help='countries to include by default (default: ca,us,uk,fr,de,it,es,ne,tr,in,ch,ko)',
-                    dest='plots', default='cd')
+                    dest='countries', default='ca,us,uk,fr,de,it,es,ne,tr,in,ch,ko')
+parser.add_argument('-r', nargs='?',
+                    help='regions to Africa: FC/FE/FS/FW, America: MC/MN/MS, Asia: AC/AE/AI/AS/AW, Europe: EE/EN/ES/EW, MidEast: MA/MG/ML, Oceania: OC',
+                    dest='regions', default='')
 parser.add_argument('-n', nargs=1,
                     help='number of countries to plot (default: 5)',
                     dest='num', default=5)
@@ -40,10 +43,13 @@ if args.b_i:
     # TODO: prettyprint info
     pass
 
-pop_base = pd.read_csv('pop.csv', index_col='country')
+pop_base0 = pd.read_csv('pop.csv')
+pop_base = pop_base0.set_index('country')
 pop = pop_base.copy()
 pop = pop.iloc[:, :1]
 pop['ccode'] = pop.index.to_series().astype(str)
+country_code = pop_base.index.to_series(index=pop_base.country_code)
+region_codes = pop_base0.groupby('code').country.agg(lambda x: list(x))
 
 opts = """
         set key font "arial";
@@ -59,13 +65,10 @@ opts = """
 """
 
 n = args.period
-countries = ["Canada"]
-countries = ["US", "Canada", "United Kingdom", "Sweden",
-             "Italy", "Spain", "Germany", "Iran", "South Africa",
-             "France", "Netherlands", "Turkey",
-             "India", "China", "Korea S."]
-countries = ["US", "Canada", "United Kingdom", "Sweden",
-             "Germany", "Iran", "Netherlands"]
+regions = region_codes.reindex(args.regions.upper().split(',')).sum()
+countries = country_code.reindex(args.countries.upper().split(',')).to_list()
+regions = [] if not regions else regions
+countries = regions + countries
 
 
 def get_new(label):
