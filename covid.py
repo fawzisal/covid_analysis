@@ -27,7 +27,7 @@ parser.add_argument('-p', nargs='?',
                     dest='plots', default='cd')
 parser.add_argument('-c', nargs='?',
                     help='countries to include by default (default: ca,us,uk,fr,de,it,es,ne,tr,in,ch,ko)',
-                    dest='countries', default='ca,us,uk,fr,de,it,es,ne,tr,in,ch,ko')
+                    dest='countries', default='ca,us,uk,fr,de,it,es,nl,tr,in,ch,ko')
 parser.add_argument('-r', nargs='?',
                     help='regions to Africa: FC/FE/FS/FW, America: MC/MN/MS, Asia: AC/AE/AI/AS/AW, Europe: EE/EN/ES/EW, MidEast: MA/MG/ML, Oceania: OC',
                     dest='regions', default='')
