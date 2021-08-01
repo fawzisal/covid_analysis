@@ -201,13 +201,22 @@ if args.b_d:
 
 if args.b_p or args.b_r:
     df = pd.read_csv('raw_ON/covidtesting.csv', index_col=0).fillna(0)
-    df.columns = ['conf-', 'assum-', 'assum+', 'conf+', 'resolved',
-                  'deaths', 'total', 'total approved for testing',
-                  'num tests', 'test_perc+', 'under investigation',
-                  'num hospitalized', 'num icu', 'num on ventilator',
-                  'ltc resident+', 'ltc hcw+', 'ltc resident deaths',
-                  'ltc hcw deaths', 'Total_Lineage_B.1.1.7',
-                  'Total_Lineage_B.1.351', 'Total_Lineage_P.1']
+    reps = {"Confirmed Negative": "conf-", "Presumptive Negative": "assum-", "Presumptive Positive": "assum+", "Confirmed Positive": "conf+", "Resolved": "resolved", "Deaths": "deaths", "Total Cases": "total",
+            "Total patients approved for testing as of Reporting Date": "total approved for testing", "Total tests completed in the last day": "num tests", "Percent positive tests in last day": "test_perc+",
+            "Under Investigation": "under investigation", "Number of patients hospitalized with COVID-19": "num hospitalized", "Number of patients in ICU due to COVID-19": "num icu",
+            "Number of patients in ICU, testing positive for COVID-19": "num on ventilator",
+            "Number of patients in ICU, testing negative for COVID-19": "ltc resident+",
+            "Number of patients in ICU on a ventilator due to COVID-19": "ltc hcw+",
+            "Num. of patients in ICU on a ventilator testing positive": "ltc resident deaths",
+            "Num. of patients in ICU on a ventilator testing negative": "ltc hcw deaths"}
+    # df.columns = ['conf-', 'assum-', 'assum+', 'conf+', 'resolved',
+    #               'deaths', 'total', 'total approved for testing',
+    #               'num tests', 'test_perc+', 'under investigation',
+    #               'num hospitalized', 'num icu', 'num on ventilator',
+    #               'ltc resident+', 'ltc hcw+', 'ltc resident deaths',
+    #               'ltc hcw deaths', 'Total_Lineage_B.1.1.7',
+    #               'Total_Lineage_B.1.351', 'Total_Lineage_P.1']
+    df.columns = df.columns.to_series().replace(reps)
     df.index = pd.to_datetime(df.index).strftime('%-m/%-d/%y')
     dfo = df
     df.to_csv('raw_ON/data.csv')
