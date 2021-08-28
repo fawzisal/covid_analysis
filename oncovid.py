@@ -147,12 +147,12 @@ def calcPerpop(df, outfile='raw_ON/cases_perpop.csv'):
     return df_perpop
 
 
-
 if args.b_D:
     url = 'https://data.ontario.ca/dataset/f4112442-bdc8-45d2-be3c-12efae72fb27/resource/455fd63b-603d-4608-8216-7d8647f43350/download/conposcovidloc.csv'
-    print(f'url: <{url}>')
-    df_D = pd.read_csv(url, index_col=0)
-    df_D.to_csv('raw_ON/conposcovidloc.csv')
+    # print(f'url: <{url}>')
+    sp.call(["wget", "-O", "raw_ON/conposcovidloc.csv", url])
+    # df_D = pd.read_csv(url, index_col=0)
+    # df_D.to_csv('raw_ON/conposcovidloc.csv')
 
 if args.b_P:
     df = pd.read_csv('raw_ON/conposcovidloc.csv', index_col=0).fillna(0)
@@ -195,9 +195,10 @@ if args.b_P:
 
 if args.b_d:
     url = 'https://data.ontario.ca/dataset/f4f86e54-872d-43f8-8a86-3892fd3cb5e6/resource/ed270bb8-340b-41f9-a7c6-e8ef587e6d11/download/covidtesting.csv'
-    print(f'url: <{url}>')
-    df_D = pd.read_csv(url, index_col=0)
-    df_D.to_csv('raw_ON/covidtesting.csv')
+    # print(f'url: <{url}>')
+    sp.call(["wget", "-O", "raw_ON/covidtesting.csv", url])
+    # df_D = pd.read_csv(url, index_col=0)
+    # df_D.to_csv('raw_ON/covidtesting.csv')
 
 if args.b_p or args.b_r:
     df = pd.read_csv('raw_ON/covidtesting.csv', index_col=0).fillna(0)
