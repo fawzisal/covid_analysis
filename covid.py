@@ -51,18 +51,7 @@ pop['ccode'] = pop.index.to_series().astype(str)
 country_code = pop_base.index.to_series(index=pop_base.country_code)
 region_codes = pop_base0.groupby('code').country.agg(lambda x: list(x))
 
-opts = """
-        set key font "arial";
-        set key autotitle columnheader;
-        set datafile separator comma;
-        set key outside; set autoscale;
-        set timefmt "%m/%d/%y";
-        set xdata time;
-        set xtics format "%b";
-        set mxtics (4);
-        set grid;
-        toggle all;
-"""
+opts = open('gplopts').read()
 
 n = args.period
 regions = region_codes.reindex(args.regions.upper().split(',')).sum()

@@ -1,0 +1,10 @@
+set key font "arial";
+set key autotitle columnheader;
+set datafile separator comma;
+set key outside; set autoscale;
+set timefmt "%m/%d/%y";
+set xdata time;
+set xtics format "%b";
+set mxtics (4);
+set grid;
+toggle all;
